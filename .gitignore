@@ -1,0 +1,18 @@
+# 忽略数据集（你的hymenoptera文件夹）
+p2_pytorch/my_datasets/
+
+# 忽略 PyCharm 的配置目录
+.idea/
+
+# 忽略 Python 编译产生的缓存
+__pycache__/
+*.pyc
+
+# 忽略模型权重文件（以后会用到）
+*.pth
+*.pt
+*.bin
+
+# 忽略系统和日志文件
+.DS_Store
+*.log
