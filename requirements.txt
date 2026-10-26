@@ -1,0 +1,20 @@
+# ai-stack 依赖清单
+# 安装：pip install -r requirements.txt
+# 注：本机暂无 Python 环境（shell 中 python/py 不可用），故不锁死版本号；
+#     torch 如需 GPU 版，参考 https://pytorch.org 选择对应 CUDA 轮子源安装。
+
+# ---- 数据处理（p1 / main.py）----
+pandas          # main.py: DataFrame + to_csv 生成脏数据集
+numpy           # pandas/torch 的底层依赖，学习项目常直接 import
+
+# ---- PyTorch（p2_pytorch）----
+torch           # Dataset / DataLoader 自定义数据集
+torchvision     # transforms 图像增强、预训练模型
+
+# ---- HuggingFace 生态（p2_pytorch/p1_dataset/case）----
+transformers    # AutoTokenizer 分词器
+datasets        # load_dataset 在线数据集
+huggingface_hub # snapshot_download 模型/数据快照
+
+# ---- 图像处理 ----
+Pillow          # PIL.Image 读取图片（hymenoptera 数据集用）
