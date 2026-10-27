@@ -4,14 +4,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目性质
 
-个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型应用逐步进阶。参考资料：`p0_book/AI工程：大模型应用开发实战/AI工程：大模型应用开发实战.pdf`。全部代码注释与文档为中文。
+个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型推理逐步进阶，当前已进入大模型阶段（`p0_model/`）。参考资料：`p0_book/AI工程：大模型应用开发实战/`。全部代码注释与文档为中文。
 
 ## 目录结构
 
-- `p1_python_basic/` — Python 基础语法练习，按阶段分目录（`P1_基础语法/` …）
+- `p1_python_basic/` — Python 基础语法练习，按阶段分目录（`P1_基础语法/` …），根下另有 `0_依赖管理.md`（pip 镜像源笔记，用清华源）
 - `p2_pytorch/` — PyTorch 学习，按主题分目录（`p1_dataset/` …），每个主题目录含：练习脚本 `.py` + 笔记 `.md` + `case/` 实战案例
-- `main.py` — 脏数据生成脚本，产出电商评论 CSV 供 Dataset 清洗练习（注意：其输出目录是 `./p1_dataloader/`，与 `p2_pytorch/p1_dataset/case/` 中的练习并非同一份文件）
+- `p0_model/` — 大模型推理起步：`DownloadModel.py` 下载并运行 Qwen2.5-1.5B-Instruct 对话推理
+- `main.py` — PyTorch GPU 环境检测脚本（打印 torch 版本 / CUDA 可用性 / GPU 名）。历史上曾是电商评论脏数据生成脚本，已废弃该用途
 - `p0_book/` — 电子书资料
+- 根目录另有 `AI是怎么工作的.md`、`AI架构师的职责.md` 两篇学习笔记
 
 命名约定：目录 `p{n}_{主题}`、脚本 `p{n}_{主题}.py`、阶段目录大写 `P{n}_中文名`。
 
@@ -19,14 +21,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - Windows 11，用 IDEA/PyCharm 开发，**无项目级 venv**（`.venv`/`venv` 不存在）
 - 本仓库 Claude 会话的 shell 中 `python`/`py` 不可用（Windows Store 别名劫持），验证脚本需用户在 IDEA 内运行，或先解决解释器路径
-- 依赖清单见 `requirements.txt`：pandas、numpy、torch、torchvision、transformers、datasets、huggingface_hub、Pillow（未锁版本，本机安装后如需可 pip freeze 补齐）
+- GPU：GTX 1660 SUPER（8G 显存），torch 2.14.1+cu126，CUDA 可用（以 `main.py` 实测输出为准）
+- 大模型下载走 HF 镜像：`HF_ENDPOINT=https://hf-mirror.com`（必须**在 import transformers 之前**设置，见 `DownloadModel.py`）
+- 依赖清单见 `requirements.txt`：torch、torchvision、transformers(==4.46.3)、accelerate、datasets、huggingface_hub、pandas、numpy。**注意该文件是 UTF-16 编码**（git 视为二进制，工具读取显示乱码），编辑前先转 UTF-8
+
+## 大模型推理的已知考点（p0_model/DownloadModel.py）
+
+- 8G 显存跑 1.5B 模型的显存预算：`device_map="auto"` + `max_memory={0: "4GB", "cpu": "2GB"}` 显式限制，防止系统被吃满
+- `low_cpu_mem_usage=True` 流式加载（边读盘边塞显卡，不占满内存）；`torch_dtype=torch.float16` 半精度
+- 推理前 `model.eval()`；对话用 `tokenizer.apply_chat_template` 组装 messages，`generate` 后按输入长度切片再 `batch_decode`
 
 ## 数据集
 
 `p2_pytorch/*/my_datasets/` 被 gitignore，不入库。本地缺失时：
 
 - hymenoptera（蚂蚁/蜜蜂图像）：运行 `p2_pytorch/p1_dataset/p1_dataset.py` 中的 `snapshot_download` 段，或自行下载
-- 电商评论 CSV：由根目录 `main.py` 生成
+- 电商评论 CSV：旧版 `main.py`（见 git 历史）才有生成逻辑，现行版本已改为 GPU 检测，`case/` 练习如需 CSV 需从历史版本找回
 
 ## 学习代码的已知考点（改代码前先看）
 
