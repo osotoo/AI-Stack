@@ -81,3 +81,12 @@ print(resp.choices[0].message.content)
 
 - **脚本裸跑**：每次运行现加载 → 推理 → 释放。适合搞懂加载、显存、生成的底层原理
 - **Ollama**：模型常驻显存 + HTTP 服务常开。适合当应用的推理后端
+
+---
+
+## 安装基础模型
+
+```shell
+$env:HF_ENDPOINT = "https://hf-mirror.com"
+huggingface-cli download Qwen/Qwen2.5-1.5B --local-dir D:\workspace\elsen-space\ai-stack\p0_model\Qwen2.5-1.5B-Base
+```
