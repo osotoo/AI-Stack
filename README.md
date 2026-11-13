@@ -269,7 +269,7 @@ flowchart TD
         VLLM --> API
     end
 
-    subgraph L5 [⑤ AI 应用工程 Application 主战场]
+    subgraph L5 [⑤ AI 应用工程 Application]
         PROMPT["Prompt 工程<br/>System Prompt/Few-shot/结构化输出"]:::javaMain
         ORCH["Spring AI / LangChain4j 编排"]:::javaMain
         RAG["RAG<br/>分块策略/Embedding 选型/混合检索/Rerank/向量库 Milvus/PgVector"]:::javaMain
@@ -284,7 +284,7 @@ flowchart TD
     subgraph L6 [⑥ 工程纪律与治理 Governance]
         EVAL["评估 Eval<br/>RAGAS 四指标/自建测试集/Langfuse Dataset"]:::guardNode
         OBS["可观测 Observability<br/>Langfuse 链路追踪/Micrometer"]:::guardNode
-        GUARD["安全护栏 Guardrails<br/>Prompt 注入防护/内容合规(政企刚需)"]:::guardNode
+        GUARD["安全护栏 Guardrails<br/>Prompt 注入防护/内容合规(企业级刚需)"]:::guardNode
         COST["成本治理<br/>Token 计费/网关限流"]:::guardNode
     end
 
@@ -310,7 +310,7 @@ flowchart TD
 | 4 | 推理层只有 vLLM/Ollama/API 三个工具 | 补量化（GGUF/AWQ）、llama.cpp（Ollama 底层）、推理核心概念（采样参数/KV Cache/chat template） | 这层是"懂流程"的关键概念层，不是纯工具清单 |
 | 5 | RAG = 向量库 | RAG 补技术本体：分块/Embedding/混合检索/Rerank | 向量库只是存储，检索质量由前四项决定 |
 | 6 | Agent = Tool Calling | 补 MCP、ReAct 规划 | MCP 已成事实标准（Claude Code 即其最大落地） |
-| 7 | RAGAS "召回率/准确率"，且无护栏 | 修正为 RAGAS 真实四指标，新增安全护栏节点 | RAGAS 指标是 Faithfulness/Answer Relevancy/Context Precision/Context Recall；政企交付中 Prompt 注入防护与内容合规是硬性要求 |
+| 7 | RAGAS "召回率/准确率"，且无护栏 | 修正为 RAGAS 真实四指标，新增安全护栏节点 | RAGAS 指标是 Faithfulness/Answer Relevancy/Context Precision/Context Recall；企业级交付中 Prompt 注入防护与内容合规是硬性要求 |
 
 另有两处结构性变化：治理层增加**回流箭头**（线上 badcase 与评测数据回流数据集和微调，AI 工程是闭环）；算力层同时指向数据与模型生产。
 
@@ -318,7 +318,7 @@ flowchart TD
 
 | 层 | 必须动手 | 概念理解即可 | 本仓库已有基础 |
 |----|---------|-------------|---------------|
-| ① 算力 | —（Docker/K8s 工作中天天用） | CUDA 与显存预算、量化与显存换算 | 工作经验覆盖；`p5_inference/p1_concepts/DownloadModel.py` 已练显存预算 |
+| ① 算力 | —（Docker/K8s 日常运维已覆盖） | CUDA 与显存预算、量化与显存换算 | 运维经验覆盖；`p5_inference/p1_concepts/DownloadModel.py` 已练显存预算 |
 | ② 数据 | 亲手构造一份 100 条指令对数据集 | 预训练语料规模、清洗去重流程 | 笔记：`p0_book/.../第八章：数据集工程.md` |
 | ③ 模型 | 用 QLoRA 微调 Qwen2.5-0.5B/1.5B（8G 显存约束，**全参微调不可行**） | 预训练、注意力机制黑盒认知、DPO | `p2_pytorch/` 基础；`p5_inference/p1_concepts/` 下载与推理已通 |
 | ④ 推理 | Ollama 部署、GGUF 量化转换、vLLM 起一次服务 | KV Cache、PagedAttention、量化位宽差异 | `p5_inference/p2_ollama/note.md`、`p5_inference/p3_quantize/基础模型下载.md` |
@@ -327,9 +327,9 @@ flowchart TD
 
 ## 推荐路径：与其分层学，不如跑通一个贯通项目
 
-分层学习容易停在"都懂一点"。建议用一个**政企客服问答小项目**把六层串起来，每步有验收标准：
+分层学习容易停在"都懂一点"。建议用一个**企业知识库问答小项目**把六层串起来，每步有验收标准：
 
-1. **数据**：手工构造 100 条政务问答对（Excel → JSONL）→ 验收：能被 `datasets` 库加载
+1. **数据**：手工构造 100 条知识库问答对（Excel → JSONL）→ 验收：能被 `datasets` 库加载
 2. **微调**：QLoRA 微调 Qwen2.5-1.5B-Instruct → 验收：loss 下降，且回答比基座更贴合问答格式
 3. **量化部署**：合并 LoRA 权重 → 转 GGUF → Ollama 跑通 → 验收：`ollama run` 出对话
 4. **应用**：Spring AI 接 Ollama，叠加 RAG（知识库检索）+ Tool Calling（查工单）→ 验收：一个问题能同时触发检索和工具调用

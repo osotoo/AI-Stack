@@ -1,6 +1,6 @@
 # p8_governance — 工程纪律与治理（路线图 ⑥）
 
-让 AI 应用**可评估、可观测、可控、可算账**。没有这层，应用只是 demo；对政企交付而言，护栏与合规是硬性要求。
+让 AI 应用**可评估、可观测、可控、可算账**。没有这层，应用只是 demo；对企业级交付而言，护栏与合规是硬性要求。
 
 ## 流程位置
 
@@ -13,10 +13,10 @@
 |---|---|---|
 | `p1_langfuse/` | 链路追踪 | 每次 LLM 调用的完整链路可视化（做 `p7_agent` 时就可先接入，不必等） |
 | `p2_eval/` | 评测 | 自建评测集回归 + RAGAS 四指标（Faithfulness / Answer Relevancy / Context Precision / Context Recall） |
-| `p3_guardrails/` | 安全护栏 | Prompt 注入防护、输出内容安全（政企刚需） |
+| `p3_guardrails/` | 安全护栏 | Prompt 注入防护、输出内容安全（企业级刚需） |
 | `p4_cost/` | 成本治理 | Token 计费核算、网关限流 |
 
-注意：RAGAS 是 Python 生态，Java 主战场的落地方式是 Langfuse Dataset 评测或自建测试集，RAGAS 旁路跑。
+注意：RAGAS 是 Python 生态，Java 技术栈的落地方式是 Langfuse Dataset 评测或自建测试集，RAGAS 旁路跑。
 
 ## 学习深度要求
 
