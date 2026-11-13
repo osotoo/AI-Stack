@@ -7,18 +7,20 @@
 
 ## 目录导航
 
-| 目录 | 内容 |
-|---|---|
-| `p0_book/` | 电子书资料（《AI工程：大模型应用开发实战》及笔记） |
-| `p1_python_basic/` | 前置：Python 基础语法 |
-| `p2_pytorch/` | 前置：PyTorch（数据集、训练流程） |
-| [`p3_dataset/`](p3_dataset/) | ② 数据工程：语料清洗、指令对/偏好对构造 |
-| [`p4_finetune/`](p4_finetune/) | ③ 模型微调：QLoRA SFT、LoRA 合并导出、DPO（选学） |
-| [`p5_inference/`](p5_inference/) | ④ 推理服务：推理概念、Ollama、量化 GGUF、vLLM |
-| [`p6_rag/`](p6_rag/) | ⑤ 应用·RAG：分块、Embedding、向量库、混合检索、Rerank |
-| [`p7_agent/`](p7_agent/) | ⑤ 应用·Agent：Prompt、Tool Calling、MCP、Memory、Spring AI |
-| [`p8_governance/`](p8_governance/) | ⑥ 治理：Langfuse 追踪、评测、护栏、Token 成本 |
-| `main.py` | GPU 环境检测脚本（torch 版本 / CUDA / GPU 名） |
+> **目录即学习路线**：下表是完整路线而非现状清单——⬜ 尚未到达的站点，🚧 进行中，✅ 已完成。
+
+| 目录 | 内容 | 状态 |
+|---|---|---|
+| `p0_book/` | 电子书资料（《AI工程：大模型应用开发实战》及笔记） | 📚 |
+| `p1_python_basic/` | 前置：Python 基础语法 | ✅ |
+| `p2_pytorch/` | 前置：PyTorch（数据集、训练流程） | 🚧 数据集已练，训练循环待学 |
+| [`p3_dataset/`](p3_dataset/) | ② 数据工程：语料清洗、指令对/偏好对构造 | ⬜ |
+| [`p4_finetune/`](p4_finetune/) | ③ 模型微调：QLoRA SFT、LoRA 合并导出、DPO（选学） | ⬜ |
+| [`p5_inference/`](p5_inference/) | ④ 推理服务：推理概念、Ollama、量化 GGUF、vLLM | 🚧 概念/Ollama/GGUF 已有实战，vLLM 待学 |
+| [`p6_rag/`](p6_rag/) | ⑤ 应用·RAG：分块、Embedding、向量库、混合检索、Rerank | 🚧 概念笔记已开写 |
+| [`p7_agent/`](p7_agent/) | ⑤ 应用·Agent：Prompt、Tool Calling、MCP、Memory、Spring AI | ⬜ |
+| [`p8_governance/`](p8_governance/) | ⑥ 治理：Langfuse 追踪、评测、护栏、Token 成本 | ⬜ |
+| `main.py` | GPU 环境检测脚本（torch 版本 / CUDA / GPU 名） | — |
 
 每个层级目录下有 `README.md` 说明该层定位、子目录作用与学习深度要求。
 
