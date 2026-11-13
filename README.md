@@ -75,43 +75,47 @@
 
 ```mermaid
 flowchart TD
+    classDef dataNode fill:#e65100,stroke:#ffb74d,stroke-width:1px,color:#fff;
+    classDef algoNode fill:#424242,stroke:#757575,stroke-width:1px,color:#bdbdbd;
+    classDef techNode fill:#37474f,stroke:#78909c,stroke-width:1px,color:#fff;
+
     %% 阶段一：训练
-    subgraph Train ["🏭 阶段一：模型训练 (Training) - 也是代码里的 for 循环"]
+    subgraph Train ["阶段一：模型训练 (Training) —— 代码里的 for 循环"]
         direction TB
-        D1["1. 准备教材 (数据)"] --> D2["Dataset: 搬运+转换 (读文件->Tensor)"]
-        D1 -.-> D1_Details["数据采集/清洗/人工标注<br>高级标注(目标检测)<br>小样本微调(LoRA)<br>合成数据(SD生成)"]
-        D2 --> D3["DataLoader: 打包机 (Batch)<br>设置 batch_size, shuffle 打乱"]
+        D1["1. 准备教材 (数据)"]:::dataNode --> D2["Dataset: 搬运+转换 (读文件->Tensor)"]:::dataNode
+        D1 -.-> D1_Details["数据采集/清洗/人工标注<br/>高级标注(目标检测)<br/>小样本微调(LoRA)<br/>合成数据(SD生成)"]:::dataNode
+        D2 --> D3["DataLoader: 打包机 (Batch)<br/>设置 batch_size, shuffle 打乱"]:::dataNode
 
-        D3 --> M1["2. 设计大脑 (nn.Module)"]
-        M1 -.-> M1_Details["继承基类, 定义网络层(如nn.Linear)<br>本质是调API, 层内包含待优化的矩阵权重"]
+        D3 --> M1["2. 设计大脑 (nn.Module)"]:::algoNode
+        M1 -.-> M1_Details["继承基类, 定义网络层(如nn.Linear)<br/>本质是调API, 层内包含待优化的矩阵权重"]:::algoNode
 
-        M1 --> F1["3. 开始考试 (前向传播 Forward)"]
-        F1 -.-> F1_Details["output = model(inputs)<br>职责: 只管瞎猜出概率, 不管对错<br>1. Input Shape对齐(重中之重)<br>2. 明确网络层输入/输出维度<br>3. 激活函数(ReLU等)引入非线性<br>4. forward定义控制流"]
+        M1 --> F1["3. 开始考试 (前向传播 Forward)"]:::algoNode
+        F1 -.-> F1_Details["output = model(inputs)<br/>职责: 只管瞎猜出概率, 不管对错<br/>1. Input Shape对齐(重中之重)<br/>2. 明确网络层输入/输出维度<br/>3. 激活函数(ReLU等)引入非线性<br/>4. forward定义控制流"]:::algoNode
 
-        F1 --> L1["4. 批改试卷 (计算损失 Loss)"]
-        L1 -.-> L1_Details["Loss越大错得越离谱<br>Loss越小模型越准"]
+        F1 --> L1["4. 批改试卷 (计算损失 Loss)"]:::algoNode
+        L1 -.-> L1_Details["Loss越大错得越离谱<br/>Loss越小模型越准"]:::algoNode
 
-        L1 --> B1["5. 寻找内鬼并修正 (反向传播与优化)"]
-        B1 -.-> B1_Details["① optimizer.zero_grad() 梯度清零<br>② loss.backward() 自动算梯度<br>③ optimizer.step() 微调参数"]
+        L1 --> B1["5. 寻找内鬼并修正 (反向传播与优化)"]:::algoNode
+        B1 -.-> B1_Details["① optimizer.zero_grad() 梯度清零<br/>② loss.backward() 自动算梯度<br/>③ optimizer.step() 微调参数"]:::algoNode
 
-        B1 --> E1["6. 循环往复 (Epochs)<br>重复 3->4->5 步 成千上万次"]
-        E1 --> S1["7. 毕业出厂 (保存模型)<br>torch.save 保存 .pth 参数权重"]
+        B1 --> E1["6. 循环往复 (Epochs)<br/>重复 3->4->5 步 成千上万次"]:::algoNode
+        E1 --> S1["7. 毕业出厂 (保存模型)<br/>torch.save 保存 .pth 参数权重"]:::techNode
     end
 
     %% 阶段二：推理
-    subgraph Infer ["🚀 阶段二：模型工作 (推理/部署) - 线上提供服务"]
+    subgraph Infer ["阶段二：模型工作 (推理/部署) —— 线上提供服务"]
         direction TB
-        I1["1. 招聘专家 (加载模型)<br>读取 .pth 塞进 nn.Module"]
-        I1 --> I2["2. 进入工作状态<br>model.eval()"]
-        I2 -.-> I2_Details["关闭 Dropout 和 BatchNorm<br>保证同输入同输出"]
+        I1["1. 招聘专家 (加载模型)<br/>读取 .pth 塞进 nn.Module"]:::techNode
+        I1 --> I2["2. 进入工作状态<br/>model.eval()"]:::techNode
+        I2 -.-> I2_Details["关闭 Dropout 和 BatchNorm<br/>保证同输入同输出"]:::techNode
 
-        I2 --> I3["3. 接收请求 (新数据)<br>预处理"]
-        I3 -.-> I3_Details["⚠️ 极其关键: Train-Serve Skew (训练与推理偏差)<br>预处理必须与训练时一模一样 (如Resize到224x224)"]
+        I2 --> I3["3. 接收请求 (新数据)<br/>预处理"]:::techNode
+        I3 -.-> I3_Details["极其关键: Train-Serve Skew (训练与推理偏差)<br/>预处理必须与训练时一模一样 (如Resize到224x224)"]:::techNode
 
-        I3 --> I4["4. 闭卷答题 (推理 Forward)<br>with torch.no_grad():"]
-        I4 -.-> I4_Details["不算梯度, 不更新参数<br>省显存, 提速度"]
+        I3 --> I4["4. 闭卷答题 (推理 Forward)<br/>with torch.no_grad():"]:::techNode
+        I4 -.-> I4_Details["不算梯度, 不更新参数<br/>省显存, 提速度"]:::techNode
 
-        I4 --> I5["5. 输出结果 (后处理)<br>取最大概率值的索引, 翻译成人类语言返回"]
+        I4 --> I5["5. 输出结果 (后处理)<br/>取最大概率值的索引, 翻译成人类语言返回"]:::techNode
     end
 
     Train ==> Infer
@@ -151,58 +155,63 @@ flowchart TD
 
 ```mermaid
 flowchart TD
+    classDef algoNode fill:#424242,stroke:#757575,stroke-width:1px,color:#bdbdbd;
+    classDef conceptNode fill:#4a148c,stroke:#ba68c8,stroke-width:1px,color:#fff;
+    classDef techNode fill:#37474f,stroke:#78909c,stroke-width:1px,color:#fff;
+    classDef guardNode fill:#00695c,stroke:#4db6ac,stroke-width:2px,color:#fff;
+
     %% ================= 训练阶段 =================
-    Stage1["🏭 阶段一：模型训练 (Training)"]
+    Stage1["阶段一：模型训练 (Training)"]:::algoNode
 
     subgraph TrainRow1 ["1. 数据准备阶段 (Dataset & DataLoader)"]
         direction LR
-        F1["🟢 流程: 读文件 -> 转张量 -> 拼成 Batch"]
-        M1["🧮 数学: 线性代数 (张量维度对齐 Shape)"]
+        F1["流程: 读文件 -> 转张量 -> 拼成 Batch"]:::algoNode
+        M1["数学: 线性代数 (张量维度对齐 Shape)"]:::conceptNode
         F1 -.-> M1
     end
 
     subgraph TrainRow2 ["2. 前向传播阶段 (Forward)"]
         direction LR
-        F2["🟢 流程: 数据穿过网络层, 瞎猜出概率"]
-        M2["🧮 数学: 线性代数 (矩阵乘法 w*x+b)"]
+        F2["流程: 数据穿过网络层, 瞎猜出概率"]:::algoNode
+        M2["数学: 线性代数 (矩阵乘法 w*x+b)"]:::conceptNode
         F2 -.-> M2
     end
 
     subgraph TrainRow3 ["3. 计算损失阶段 (Loss)"]
         direction LR
-        F3["🟢 流程: 拿预测概率与真实Label对比算差距"]
-        M3["🎲 数学: 概率论与统计 (Softmax归一化与交叉熵)"]
+        F3["流程: 拿预测概率与真实Label对比算差距"]:::algoNode
+        M3["数学: 概率论与统计 (Softmax归一化与交叉熵)"]:::conceptNode
         F3 -.-> M3
     end
 
     subgraph TrainRow4 ["4. 反向传播与优化 (Backward & Optimizer)"]
         direction LR
-        F4["🟢 流程: 梯度清零 -> 找内鬼算梯度 -> 微调权重"]
-        M4["📈 数学: 微积分 (偏导数/梯度/链式法则)"]
+        F4["流程: 梯度清零 -> 找内鬼算梯度 -> 微调权重"]:::algoNode
+        M4["数学: 微积分 (偏导数/梯度/链式法则)"]:::conceptNode
         F4 -.-> M4
     end
 
     %% ================= 推理阶段 =================
-    Stage2["🚀 阶段二：模型推理 (Inference)"]
+    Stage2["阶段二：模型推理 (Inference)"]:::techNode
 
     subgraph InferRow1 ["5. 加载模型 (Load .pth)"]
         direction LR
-        I1["🟢 流程: 系统启动, 把参数塞进网络骨架"]
-        N1["💰 算力成本: 显存估算 (如70B模型用FP16需140GB显存)"]
+        I1["流程: 系统启动, 把参数塞进网络骨架"]:::techNode
+        N1["算力成本: 显存估算 (如70B模型用FP16需140GB显存)"]:::guardNode
         I1 -.-> N1
     end
 
     subgraph InferRow2 ["6. 线上工作 (Forward / 采样)"]
         direction LR
-        I2["🟢 流程: 接收用户新数据, 关掉Dropout, 预测概率"]
-        N2["🎲 数学: 概率论与统计 (Temperature/Top-p 控胡说八道)"]
+        I2["流程: 接收用户新数据, 关掉Dropout, 预测概率"]:::techNode
+        N2["数学: 概率论与统计 (Temperature/Top-p 控胡说八道)"]:::conceptNode
         I2 -.-> N2
     end
 
     subgraph InferRow3 ["7. 后处理与高并发"]
         direction LR
-        I3["🟢 流程: 取最大概率返回结果, 支持高并发访问"]
-        N3["💰 算力成本: 吞吐量评估 (算O(N²)复杂度, 评估vLLM并发成本)"]
+        I3["流程: 取最大概率返回结果, 支持高并发访问"]:::techNode
+        N3["算力成本: 吞吐量评估 (算O(N²)复杂度, 评估vLLM并发成本)"]:::guardNode
         I3 -.-> N3
     end
 
