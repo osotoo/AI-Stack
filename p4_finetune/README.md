@@ -4,7 +4,7 @@
 
 ## 流程位置
 
-- **上游**：`p3_dataset`（训练数据）+ HuggingFace 基座模型
+- **上游**：`p2_dataset`（训练数据）+ HuggingFace 基座模型
 - **下游**：`p5_inference` —— 合并导出的模型权重交给推理层部署
 
 ## 子目录
@@ -24,5 +24,5 @@
 
 ## 当前状态
 
-- 待从零开始（PyTorch 基础见 `p2_pytorch/`）
+- 待从零开始（PyTorch 基础见 `p3_pytorch/`）
 - 衔接：`p2_merge` 产出 → `p5_inference/p3_quantize` 转 GGUF → 替换 `p7_agent` 里的现成模型，贯通项目闭环

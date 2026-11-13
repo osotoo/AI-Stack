@@ -4,13 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目性质
 
-个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型应用工程逐步进阶。目录**按 AI 生产流程组织**（`p3_dataset` 数据 → `p4_finetune` 微调 → `p5_inference` 推理 → `p6_rag`/`p7_agent` 应用 → `p8_governance` 治理），当前推进至 RAG（`p6_rag`）。参考资料：`p0_book/AI工程：大模型应用开发实战/`。全部代码注释与文档为中文。
+个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型应用工程逐步进阶。目录**按 AI 生产流程组织**（`p2_dataset` 数据 → `p4_finetune` 微调 → `p5_inference` 推理 → `p6_rag`/`p7_agent` 应用 → `p8_governance` 治理；`p3_pytorch` 是③微调的前置工具层），当前推进至 RAG（`p6_rag`）。参考资料：`p0_book/AI工程：大模型应用开发实战/`。全部代码注释与文档为中文。
 
 ## 目录结构
 
 - `p1_python_basic/` — Python 基础语法练习，按阶段分目录（`P1_基础语法/` …），根下另有 `0_依赖管理.md`（pip 镜像源笔记，用清华源）
-- `p2_pytorch/` — PyTorch 学习，按主题分目录（`p1_dataset/` …），每个主题目录含：练习脚本 `.py` + 笔记 `.md` + `case/` 实战案例
-- `p3_dataset/` — ② 数据工程（语料清洗、指令对构造）
+- `p2_dataset/` — ② 数据工程（语料清洗、指令对构造）
+- `p3_pytorch/` — PyTorch 学习（③微调的前置工具），按主题分目录（`p1_dataloader/` …），每个主题目录含：练习脚本 `.py` + 笔记 `.md` + `case/` 实战案例
 - `p4_finetune/` — ③ 模型微调（QLoRA SFT、合并导出、DPO 选学）
 - `p5_inference/` — ④ 推理服务：`p1_concepts/`（推理概念，含 `DownloadModel.py`）、`p2_ollama/`（Ollama 笔记）、`p3_quantize/`（量化与 GGUF 转换，含 `基础模型下载.md`）、`p4_vllm/`
 - `p6_rag/` — ⑤ 应用·RAG（根下 `note.md` 为 RAG 学习笔记）
@@ -38,9 +38,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 数据集
 
-`p2_pytorch/*/my_datasets/` 被 gitignore，不入库。本地缺失时：
+`p3_pytorch/my_datasets/` 被 gitignore，不入库。本地缺失时：
 
-- hymenoptera（蚂蚁/蜜蜂图像）：运行 `p2_pytorch/p1_dataset/p1_dataset.py` 中的 `snapshot_download` 段，或自行下载
+- hymenoptera（蚂蚁/蜜蜂图像）：运行 `p3_pytorch/p1_dataloader/p1_dataset.py` 中的 `snapshot_download` 段，或自行下载
 - 电商评论 CSV：旧版 `main.py`（见 git 历史）才有生成逻辑，现行版本已改为 GPU 检测，`case/` 练习如需 CSV 需从历史版本找回
 
 ## 学习代码的已知考点（改代码前先看）

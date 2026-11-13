@@ -5,7 +5,7 @@
 ## 流程位置
 
 - **上游**：`p6_rag` / `p7_agent` 上报的指标、trace 与 badcase
-- **回流**：评测发现的 badcase 回流 `p3_dataset`（补数据）和 `p4_finetune`（再训练）——AI 工程是闭环，不是单向管道
+- **回流**：评测发现的 badcase 回流 `p2_dataset`（补数据）和 `p4_finetune`（再训练）——AI 工程是闭环，不是单向管道
 
 ## 子目录
 
