@@ -4,16 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目性质
 
-个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型推理逐步进阶，当前已进入大模型阶段（`p0_model/`）。参考资料：`p0_book/AI工程：大模型应用开发实战/`。全部代码注释与文档为中文。
+个人 AI 学习仓库（非生产工程），从 Python 基础 → PyTorch → 大模型应用工程逐步进阶。目录**按 AI 生产流程组织**（`p3_dataset` 数据 → `p4_finetune` 微调 → `p5_inference` 推理 → `p6_rag`/`p7_agent` 应用 → `p8_governance` 治理），当前推进至 RAG（`p6_rag`）。参考资料：`p0_book/AI工程：大模型应用开发实战/`。全部代码注释与文档为中文。
 
 ## 目录结构
 
 - `p1_python_basic/` — Python 基础语法练习，按阶段分目录（`P1_基础语法/` …），根下另有 `0_依赖管理.md`（pip 镜像源笔记，用清华源）
 - `p2_pytorch/` — PyTorch 学习，按主题分目录（`p1_dataset/` …），每个主题目录含：练习脚本 `.py` + 笔记 `.md` + `case/` 实战案例
-- `p0_model/` — 大模型推理起步：`DownloadModel.py` 下载并运行 Qwen2.5-1.5B-Instruct 对话推理
+- `p3_dataset/` — ② 数据工程（语料清洗、指令对构造）
+- `p4_finetune/` — ③ 模型微调（QLoRA SFT、合并导出、DPO 选学）
+- `p5_inference/` — ④ 推理服务：`p1_concepts/`（推理概念，含 `DownloadModel.py`）、`p2_ollama/`（Ollama 笔记）、`p3_quantize/`（量化与 GGUF 转换，含 `基础模型下载.md`）、`p4_vllm/`
+- `p6_rag/` — ⑤ 应用·RAG（根下 `note.md` 为 RAG 学习笔记）
+- `p7_agent/` — ⑤ 应用·Agent（Prompt/Tool Calling/MCP/Memory/Spring AI）
+- `p8_governance/` — ⑥ 治理（Langfuse/评测/护栏/成本）
 - `main.py` — PyTorch GPU 环境检测脚本（打印 torch 版本 / CUDA 可用性 / GPU 名）。历史上曾是电商评论脏数据生成脚本，已废弃该用途
 - `p0_book/` — 电子书资料
-- 根目录另有 `AI是怎么工作的.md`、`AI架构师的职责.md` 两篇学习笔记
+- p3~p8 各层级目录下均有 `README.md` 说明该层定位、子目录作用与学习深度；根 `README.md` 已整合「AI 是怎么工作的」「AI 架构师需要什么能力」「AI 学习路线图」三篇内容
 
 命名约定：目录 `p{n}_{主题}`、脚本 `p{n}_{主题}.py`、阶段目录大写 `P{n}_中文名`。
 
@@ -22,10 +27,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Windows 11，用 IDEA/PyCharm 开发，**无项目级 venv**（`.venv`/`venv` 不存在）
 - 本仓库 Claude 会话的 shell 中 `python`/`py` 不可用（Windows Store 别名劫持），验证脚本需用户在 IDEA 内运行，或先解决解释器路径
 - GPU：GTX 1660 SUPER（8G 显存），torch 2.14.1+cu126，CUDA 可用（以 `main.py` 实测输出为准）
-- 大模型下载走 HF 镜像：`HF_ENDPOINT=https://hf-mirror.com`（必须**在 import transformers 之前**设置，见 `DownloadModel.py`）
+- 大模型下载走 HF 镜像：`HF_ENDPOINT=https://hf-mirror.com`（必须**在 import transformers 之前**设置，见 `p5_inference/p1_concepts/DownloadModel.py`）
 - 依赖清单见 `requirements.txt`：torch、torchvision、transformers(==4.46.3)、accelerate、datasets、huggingface_hub、pandas、numpy。**注意该文件是 UTF-16 编码**（git 视为二进制，工具读取显示乱码），编辑前先转 UTF-8
 
-## 大模型推理的已知考点（p0_model/DownloadModel.py）
+## 大模型推理的已知考点（p5_inference/p1_concepts/DownloadModel.py）
 
 - 8G 显存跑 1.5B 模型的显存预算：`device_map="auto"` + `max_memory={0: "4GB", "cpu": "2GB"}` 显式限制，防止系统被吃满
 - `low_cpu_mem_usage=True` 流式加载（边读盘边塞显卡，不占满内存）；`torch_dtype=torch.float16` 半精度
