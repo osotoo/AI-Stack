@@ -72,7 +72,6 @@
 5. **输出结果（后处理）**：取最大概率的索引，翻译成"蜜蜂"返回给用户。
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
 flowchart TD
     %% 阶段一：训练
     subgraph Train ["🏭 阶段一：模型训练 (Training) - 也是代码里的 for 循环"]
@@ -149,7 +148,6 @@ flowchart TD
 这些不是学术数学，是**工程数学**——架构师面试与方案评审的硬通货。
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
 flowchart TD
     %% ================= 训练阶段 =================
     Stage1["🏭 阶段一：模型训练 (Training)"]
