@@ -7,20 +7,20 @@
 
 ## 目录导航
 
-> **目录即学习路线**：下表是完整路线而非现状清单——⬜ 尚未到达的站点，🚧 进行中，✅ 已完成。
+> **目录即学习路线**：下表是完整学习路线；空目录是尚未到达的站点，当前进度看各层级 `README.md` 的「当前状态」。
 
-| 目录 | 内容 | 状态 |
-|---|---|---|
-| `p0_book/` | 电子书资料（《AI工程：大模型应用开发实战》及笔记） | 📚 |
-| `p1_python_basic/` | 前置：Python 基础语法 | ✅ |
-| [`p2_dataset/`](p2_dataset/) | ② 数据工程：语料清洗、指令对/偏好对构造 | ⬜ |
-| `p3_pytorch/` | 前置工具：PyTorch 机制（Dataset/DataLoader 装载、训练循环）——③微调的直连前置 | 🚧 装载已练，训练循环待学 |
-| [`p4_finetune/`](p4_finetune/) | ③ 模型微调：QLoRA SFT、LoRA 合并导出、DPO（选学） | ⬜ |
-| [`p5_inference/`](p5_inference/) | ④ 推理服务：推理概念、Ollama、量化 GGUF、vLLM | 🚧 概念/Ollama/GGUF 已有实战，vLLM 待学 |
-| [`p6_rag/`](p6_rag/) | ⑤ 应用·RAG：分块、Embedding、向量库、混合检索、Rerank | 🚧 概念笔记已开写 |
-| [`p7_agent/`](p7_agent/) | ⑤ 应用·Agent：Prompt、Tool Calling、MCP、Memory、Spring AI | ⬜ |
-| [`p8_governance/`](p8_governance/) | ⑥ 治理：Langfuse 追踪、评测、护栏、Token 成本 | ⬜ |
-| `main.py` | GPU 环境检测脚本（torch 版本 / CUDA / GPU 名） | — |
+| 目录                               | 内容                                                                         |
+|------------------------------------|------------------------------------------------------------------------------|
+| `p0_book/`                         | 电子书资料（《AI工程：大模型应用开发实战》及笔记）                           |
+| `p1_python_basic/`                 | 前置：Python 基础语法                                                        |
+| [`p2_dataset/`](p2_dataset/)       | ② 数据工程：语料清洗、指令对/偏好对构造                                      |
+| `p3_pytorch/`                      | 前置工具：PyTorch 机制（Dataset/DataLoader 装载、训练循环）——③微调的直连前置 |
+| [`p4_finetune/`](p4_finetune/)     | ③ 模型微调：QLoRA SFT、LoRA 合并导出、DPO（选学）                            |
+| [`p5_inference/`](p5_inference/)   | ④ 推理服务：推理概念、Ollama、量化 GGUF、vLLM                                |
+| [`p6_rag/`](p6_rag/)               | ⑤ 应用·RAG：分块、Embedding、向量库、混合检索、Rerank                        |
+| [`p7_agent/`](p7_agent/)           | ⑤ 应用·Agent：Prompt、Tool Calling、MCP、Memory、Spring AI                   |
+| [`p8_governance/`](p8_governance/) | ⑥ 治理：Langfuse 追踪、评测、护栏、Token 成本                                |
+| `main.py`                          | GPU 环境检测脚本（torch 版本 / CUDA / GPU 名）                               |
 
 每个层级目录下有 `README.md` 说明该层定位、子目录作用与学习深度要求。
 
@@ -220,7 +220,7 @@ flowchart TD
 
 > 目标：**学习 AI 的整个流程，不深入算法，但每层有一定深度**。结构：算力 → 数据 → 模型 → 推理 → 应用 → 治理六层；①算力不设目录（运维经验已覆盖），②=`p2_dataset`，③~⑥=`p4_finetune`~`p8_governance`，③的前置工具 PyTorch 位于 `p3_pytorch`。
 
-## 全景图（v2）
+## 全景图
 
 ```mermaid
 flowchart TD
@@ -302,28 +302,28 @@ flowchart TD
 
 初版五层图（已归档于 git 历史）存在 7 处问题，修正如下：
 
-| # | 初版 | 修正为 | 原因 |
-|---|------|--------|------|
-| 1 | `GPU→CUDA→K8s` 串联 | 三节点并列，同属算力层 | CUDA 是单机软件栈，K8s 是集群调度层，二者不构成上下游依赖；K8s 通过 device plugin 分配 GPU 资源 |
-| 2 | 无数据层 | 新增 ② 数据工程 | 数据是 AI 流程真正的起点，指令集质量决定微调上限（对应书第八章） |
-| 3 | `微调 LoRA/SFT/DPO` 并列 | SFT→DPO 为阶段先后，LoRA 为正交的省显存方法 | LoRA 回答"怎么训省卡"，SFT/DPO 回答"训什么目标"，可组合（如 LoRA+SFT） |
-| 4 | 推理层只有 vLLM/Ollama/API 三个工具 | 补量化（GGUF/AWQ）、llama.cpp（Ollama 底层）、推理核心概念（采样参数/KV Cache/chat template） | 这层是"懂流程"的关键概念层，不是纯工具清单 |
-| 5 | RAG = 向量库 | RAG 补技术本体：分块/Embedding/混合检索/Rerank | 向量库只是存储，检索质量由前四项决定 |
-| 6 | Agent = Tool Calling | 补 MCP、ReAct 规划 | MCP 已成事实标准（Claude Code 即其最大落地） |
-| 7 | RAGAS "召回率/准确率"，且无护栏 | 修正为 RAGAS 真实四指标，新增安全护栏节点 | RAGAS 指标是 Faithfulness/Answer Relevancy/Context Precision/Context Recall；企业级交付中 Prompt 注入防护与内容合规是硬性要求 |
+| # | 初版                                | 修正为                                                                                        | 原因                                                                                                                          |
+|---|-------------------------------------|-----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 1 | `GPU→CUDA→K8s` 串联                 | 三节点并列，同属算力层                                                                        | CUDA 是单机软件栈，K8s 是集群调度层，二者不构成上下游依赖；K8s 通过 device plugin 分配 GPU 资源                               |
+| 2 | 无数据层                            | 新增 ② 数据工程                                                                               | 数据是 AI 流程真正的起点，指令集质量决定微调上限（对应书第八章）                                                              |
+| 3 | `微调 LoRA/SFT/DPO` 并列            | SFT→DPO 为阶段先后，LoRA 为正交的省显存方法                                                   | LoRA 回答"怎么训省卡"，SFT/DPO 回答"训什么目标"，可组合（如 LoRA+SFT）                                                        |
+| 4 | 推理层只有 vLLM/Ollama/API 三个工具 | 补量化（GGUF/AWQ）、llama.cpp（Ollama 底层）、推理核心概念（采样参数/KV Cache/chat template） | 这层是"懂流程"的关键概念层，不是纯工具清单                                                                                    |
+| 5 | RAG = 向量库                        | RAG 补技术本体：分块/Embedding/混合检索/Rerank                                                | 向量库只是存储，检索质量由前四项决定                                                                                          |
+| 6 | Agent = Tool Calling                | 补 MCP、ReAct 规划                                                                            | MCP 已成事实标准（Claude Code 即其最大落地）                                                                                  |
+| 7 | RAGAS "召回率/准确率"，且无护栏     | 修正为 RAGAS 真实四指标，新增安全护栏节点                                                     | RAGAS 指标是 Faithfulness/Answer Relevancy/Context Precision/Context Recall；企业级交付中 Prompt 注入防护与内容合规是硬性要求 |
 
 另有两处结构性变化：治理层增加**回流箭头**（线上 badcase 与评测数据回流数据集和微调，AI 工程是闭环）；算力层同时指向数据与模型生产。
 
 ## 各层学习深度（不深入算法版）
 
-| 层 | 必须动手 | 概念理解即可 | 本仓库已有基础 |
-|----|---------|-------------|---------------|
-| ① 算力 | —（Docker/K8s 日常运维已覆盖） | CUDA 与显存预算、量化与显存换算 | 运维经验覆盖；`p5_inference/p1_concepts/DownloadModel.py` 已练显存预算 |
-| ② 数据 | 亲手构造一份 100 条指令对数据集 | 预训练语料规模、清洗去重流程 | 笔记：`p0_book/.../第八章：数据集工程.md` |
-| ③ 模型 | 用 QLoRA 微调 Qwen2.5-0.5B/1.5B（8G 显存约束，**全参微调不可行**） | 预训练、注意力机制黑盒认知、DPO | `p3_pytorch/` 基础；`p5_inference/p1_concepts/` 下载与推理已通 |
-| ④ 推理 | Ollama 部署、GGUF 量化转换、vLLM 起一次服务 | KV Cache、PagedAttention、量化位宽差异 | `p5_inference/p2_ollama/note.md`、`p5_inference/p3_quantize/基础模型下载.md` |
-| ⑤ 应用 | Spring AI 全链路：RAG/Tool Calling/Memory 各跑通一个 demo | Prompt 工程方法论、ReAct | `p6_rag/note.md` 已开写；书第一章 |
-| ⑥ 治理 | Langfuse 接入 Spring AI 看到一条完整 trace；自建 20 条评测集 | RAGAS 四指标含义、限流策略 | 全新领域，从零起步 |
+| 层     | 必须动手                                                           | 概念理解即可                           | 本仓库已有基础                                                               |
+|--------|--------------------------------------------------------------------|----------------------------------------|------------------------------------------------------------------------------|
+| ① 算力 | —（Docker/K8s 日常运维已覆盖）                                     | CUDA 与显存预算、量化与显存换算        | 运维经验覆盖；`p5_inference/p1_concepts/DownloadModel.py` 已练显存预算       |
+| ② 数据 | 亲手构造一份 100 条指令对数据集                                    | 预训练语料规模、清洗去重流程           | 笔记：`p0_book/.../第八章：数据集工程.md`                                    |
+| ③ 模型 | 用 QLoRA 微调 Qwen2.5-0.5B/1.5B（8G 显存约束，**全参微调不可行**） | 预训练、注意力机制黑盒认知、DPO        | `p3_pytorch/` 基础；`p5_inference/p1_concepts/` 下载与推理已通               |
+| ④ 推理 | Ollama 部署、GGUF 量化转换、vLLM 起一次服务                        | KV Cache、PagedAttention、量化位宽差异 | `p5_inference/p2_ollama/note.md`、`p5_inference/p3_quantize/基础模型下载.md` |
+| ⑤ 应用 | Spring AI 全链路：RAG/Tool Calling/Memory 各跑通一个 demo          | Prompt 工程方法论、ReAct               | `p6_rag/note.md` 已开写；书第一章                                            |
+| ⑥ 治理 | Langfuse 接入 Spring AI 看到一条完整 trace；自建 20 条评测集       | RAGAS 四指标含义、限流策略             | 全新领域，从零起步                                                           |
 
 ## 推荐路径：与其分层学，不如跑通一个贯通项目
 
