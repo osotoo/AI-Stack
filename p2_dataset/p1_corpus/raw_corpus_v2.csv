@@ -1,0 +1,16 @@
+id,text,source
+1,APP闪退三次了，求修复！http://bug.example.com/log123 有日志,app_review
+2,订单 20261030 希望改地址，邮箱 change@example.com 谢谢,ticket
+3,,survey
+4,界面很好看👍，但是加载太慢了,app_review
+5,发票开 张三，重新开一下,ticket
+6,更新之后反而更卡了 😤,app_review
+7,mostly good but 太多广告 http://ad.example.com,survey
+8,能不能开发票？电子发票抬头写个人。,ticket
+9,界面很好看 👍，但是加载太慢了 ,app_review
+10,　,survey
+11,客服 13800138000 打不通，改发邮件 admin@example.com,ticket
+12,"支付一直转圈,退款！退款！",app_review
+13,……,survey
+14,物流太慢了！等了一个星期才到。,ticket
+15,还款日提醒没有推送，差点逾期，客服电话 073188886666 也打不通,app_review
