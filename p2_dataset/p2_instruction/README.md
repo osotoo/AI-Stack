@@ -69,6 +69,7 @@ Excel 模板 → 逐条填写 → 校验 validate() → 导出 JSONL → dataset
 | `instruction_20.jsonl` | 练习 2 | 第一批 20 条 |
 | `sft_dataset.jsonl` | 练习 3 | 验收产物：100 条 |
 | `sft_dataset_disk/` | 练习 3 | `save_to_disk` 切分结果（train、test） |
+| `questions.ipynb` | 加练 | 10 道手感题：JSONL 读写、validate、覆盖度统计，只用标准库加 pandas，Colab 打开即做 |
 
 ## 三、课后练习
 
