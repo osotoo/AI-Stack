@@ -22,6 +22,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 命名约定：目录 `p{n}_{主题}`、脚本 `p{n}_{主题}.py`、阶段目录大写 `P{n}_中文名`。
 
+文件角色约定（p2_dataset 已按此执行，后续层照此办理）：
+
+- 层级 `README.md` 只做**概括提炼与导航**：本层重点、三阶段格式总表、子目录入口、练习路径、进度状态
+- 小节 `README.md` 是该小节的**完整教学文件**，固定两部分结构：① 知识学习（由浅到深，含考点）② 课后练习（该节练习题 + 自测题 + 交作业说明），末尾附「待补」清单
+- 材料（数据集/造数脚本）放小节目录内，由 README 引用；**不在层根放 note.md / 练习.md 之类散文件**
+- **全仓库文档不使用 emoji 表情符号**（含标题装饰、难度星级等，用文字标记如「（考点）」「难度 n/5」）；数据文件里刻意埋的脏数据除外（如 `p3_pytorch/p1_dataloader/case/comments.csv` 的表情刷屏行是清洗练习素材）
+
 ## 环境
 
 - Windows 11，用 IDEA/PyCharm 开发，**无项目级 venv**（`.venv`/`venv` 不存在）
