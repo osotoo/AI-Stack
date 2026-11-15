@@ -57,7 +57,7 @@ print("形状:", text_tensor.shape) # 输出 torch.Size([4])
 
 `transforms` 就是干这个脏活累活的。结合你的 Java 思维，它相当于你 Spring 框架里的 **`Filter` 过滤器**，或者 **`ImageUtils` 工具类**。
 
-### 🛠️ `transforms` 里面最核心的 3 个工具（API）：
+### `transforms` 里面最核心的 3 个工具（API）：
 
 1.  **`transforms.ToTensor()`（绝对核心）**：
     *   **作用**：把 `PIL` 图片转成 `Tensor` 张量。同时把原本 0~255 的整数像素，除以 255，变成 0.0~1.0 的浮点数。
@@ -69,7 +69,7 @@ print("形状:", text_tensor.shape) # 输出 torch.Size([4])
     *   **作用**：流水线组装。把上面几个步骤串起来，一步到位。
     *   **Java 比喻**：相当于 Java 里的 `Stream().filter().map().collect()` 链式调用。
 
-### 🚀 看看代码里怎么用（套路模板）：
+### 看看代码里怎么用（套路模板）：
 
 ```python
 from torchvision import transforms
@@ -89,7 +89,7 @@ my_transform = transforms.Compose([
 
 ---
 
-### 🔄 串联你脑子里的流水线：
+### 串联你脑子里的流水线：
 
 你想想，你的数据是怎么一点点变成矩阵，送进显卡的？
 1.  **`Dataset`** 拿到图片路径，`Image.open()` 读出原始图片（还没法吃）。
