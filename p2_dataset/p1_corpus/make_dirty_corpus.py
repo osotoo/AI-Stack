@@ -51,38 +51,44 @@ DIRTY_ROWS = [
     (30, "差评，客服一直机器人转人工，转了三次都没成功。", "在线评论"),
 ]
 
-# 练习1: 使用 pandas
+# 1. 读取文件
+import pandas as pd
+
+rows = pd.read_csv("raw_corpus.csv")
+
+print(rows)
+
+# 练习1: 去掉空数据
 def remove_empty_rows(rows):
-    return [row for row in rows if row[1].strip() != ""]
+    print([row for row in rows if row[1].strip() != ""])
 
 
-
-def main():
-    out_path = pathlib.Path(__file__).parent / "raw_corpus.csv"
-    # newline="" 是写 CSV 的固定搭配：防止 Windows 下出现空行
-    with open(out_path, "w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["id", "text", "source"])
-        writer.writerows(DIRTY_ROWS)
-    print(f"已生成 {out_path}（{len(DIRTY_ROWS)} 条）\n")
-
-    # ---------- 埋雷清单（对答案用） ----------
-    texts = [t for _, t, _ in DIRTY_ROWS]
-    blank = sum(1 for t in texts if t.strip() == "")
-    # 精确重复的"多余行"数：同文本出现 k 次就多 k-1 条
-    from collections import Counter
-    dup_extra = sum(k - 1 for k in Counter(texts).values() if k > 1)
-    print("埋雷清单：")
-    print("  空文本/纯空白      : 3 条（含全角空格 1 条）")
-    print(f"  精确重复多余行     : {dup_extra} 条（一组三胞胎 + 两组双胞胎）")
-    print("  含手机号           : 3 条")
-    print("  含身份证号         : 2 条")
-    print("  含 HTML 标签       : 2 条")
-    print("  乱码               : 2 条（清洗要求里没这条，留作思考）")
-    print("  近重复（精确去重漏网）: 2 条（id=14 和 id=23，只差一个尾随空格）")
-    print("  字段内含换行       : 1 条（id=24，考验 CSV 解析）")
-    print("  半角逗号文本       : 1 条（id=28，考验 CSV 引号）")
-
-
-if __name__ == "__main__":
-    main()
+# def main():
+#     out_path = pathlib.Path(__file__).parent / "raw_corpus.csv"
+#     # newline="" 是写 CSV 的固定搭配：防止 Windows 下出现空行
+#     with open(out_path, "w", encoding="utf-8", newline="") as f:
+#         writer = csv.writer(f)
+#         writer.writerow(["id", "text", "source"])
+#         writer.writerows(DIRTY_ROWS)
+#     print(f"已生成 {out_path}（{len(DIRTY_ROWS)} 条）\n")
+#
+#     # ---------- 埋雷清单（对答案用） ----------
+#     texts = [t for _, t, _ in DIRTY_ROWS]
+#     blank = sum(1 for t in texts if t.strip() == "")
+#     # 精确重复的"多余行"数：同文本出现 k 次就多 k-1 条
+#     from collections import Counter
+#     dup_extra = sum(k - 1 for k in Counter(texts).values() if k > 1)
+#     print("埋雷清单：")
+#     print("  空文本/纯空白      : 3 条（含全角空格 1 条）")
+#     print(f"  精确重复多余行     : {dup_extra} 条（一组三胞胎 + 两组双胞胎）")
+#     print("  含手机号           : 3 条")
+#     print("  含身份证号         : 2 条")
+#     print("  含 HTML 标签       : 2 条")
+#     print("  乱码               : 2 条（清洗要求里没这条，留作思考）")
+#     print("  近重复（精确去重漏网）: 2 条（id=14 和 id=23，只差一个尾随空格）")
+#     print("  字段内含换行       : 1 条（id=24，考验 CSV 解析）")
+#     print("  半角逗号文本       : 1 条（id=28，考验 CSV 引号）")
+#
+#
+# if __name__ == "__main__":
+#     main()
