@@ -28,7 +28,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - 小节 `README.md` 是该小节的**完整教学文件**，固定两部分结构：① 知识学习（由浅到深，含考点）② 课后练习（该节练习题 + 自测题 + 交作业说明），末尾附「待补」清单
 - 材料（数据集/造数脚本）放小节目录内，由 README 引用；**不在层根放 note.md / 练习.md 之类散文件**
 - **全仓库文档不使用 emoji 表情符号**（含标题装饰、难度星级等，用文字标记如「（考点）」「难度 n/5」）；数据文件里刻意埋的脏数据除外（如 `p3_pytorch/p1_dataloader/case/comments.csv` 的表情刷屏行是清洗练习素材）
-- **写作排版规范**：写或改任何 `.md` 文档前，先读 `.claude/skills/doc-style/SKILL.md`（中文排版硬规则 + 教学文档骨架）和 `.claude/skills/google-dev-style/SKILL.md`（表达规则：结论前置、主动语态、无填充词）
+- **写作排版规范**：写或改任何 `.md` 文档前，先读四个 skill——`.claude/skills/doc-style/SKILL.md`（中文排版硬规则 + 教学文档骨架）、`.claude/skills/google-dev-style/SKILL.md`（表达规则：结论前置、主动语态、无填充词）、`.claude/skills/tutorial-writing/SKILL.md`（教学设计：目标先行、概念锚点、练习验收标准、检索式自测，写教学文档和练习题时必读）、`.claude/skills/curriculum-design/SKILL.md`（课程设计：逆向设计、学习地图、先修依赖、螺旋加深，规划层结构和学习路线时必读）
 
 ## 环境
 

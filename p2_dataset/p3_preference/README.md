@@ -32,7 +32,7 @@
 
 在 `p3_preference/p5_preference.py` 里：
 
-1. 挑 10 个问题，每个问题收集 2 到 3 个不同质量的回答——用 Ollama 不同 prompt 生成，一个要求"详细分步"，一个要求"一句话敷衍"
+1. 从 `p2_instruction` 练习 4 的合成产物里挑 10 个问题，每个问题收集 2 到 3 个不同质量的回答——用 Ollama 不同 prompt 生成，一个要求"详细分步"，一个要求"一句话敷衍"
 2. 你来当标注员，标出 `chosen` 和 `rejected`，写成 JSONL，字段为 `question`、`chosen`、`rejected`
 3. 写一份 5 行的标注指南，体会"定标注指南比标注更难"
 

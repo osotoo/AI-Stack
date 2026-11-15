@@ -86,30 +86,33 @@ Excel 模板 → 逐条填写 → 校验 validate() → 导出 JSONL → dataset
 
 ### 练习 2：指令对 Excel 模板与校验（难度 3/5）
 
-团队约定用 Excel 收集指令对，业务同学好上手；你负责设计模板，写校验转换脚本。
+团队约定用 Excel 收集指令对，业务同学好上手；你负责设计模板，写校验转换脚本。原料有两路：你的工作领域，加 p1 洗出来的干净语料。
 
 在 `p2_instruction/p2_build.py` 里：
 
 1. 先装依赖：`pip install openpyxl`
 2. 生成 `instruction_template.xlsx`，预填 1 行示例
-3. 按你的工作领域填入至少 20 条真实指令对——这是 100 条的第一批，认真写
-4. 实现校验函数 `validate(df)`，规则见"构造流水线"一节；不合格的行打印行号和原因
-5. 校验通过的行导出 `instruction_20.jsonl`
+3. 按你的工作领域填入至少 15 条真实指令对——这是 100 条的第一批，认真写
+4. 从 `p1_corpus/clean_corpus.csv` 挑 5 条干净语料，改写成指令对（针对这条语料提任务当 instruction，原文放 input，期望回答当 output）——清洗成果经这条依赖链流进构造
+5. 实现校验函数 `validate(df)`，规则见"构造流水线"一节；不合格的行打印行号和原因
+6. 校验通过的行导出 `instruction_20.jsonl`
 
 ### 练习 3：验收项目——100 条指令对（难度 4/5）
 
-本层的验收标准，前两个练习的成果在这里汇总。
+本层的验收标准，前两个练习的成果在这里汇总。100 条手写是本层最重的活，刻意为之：亲手写过才知道痛，痛过才懂练习 4 合成数据的价值。可以分几天填，别一口气。
 
 在 `p2_instruction/p3_finalize.py` 里：
 
 1. 指令对凑满 100 条，四个任务类型都要有覆盖
 2. 全量校验（复用 `validate`），导出 `sft_dataset.jsonl`
 3. 用 `load_dataset("json", data_files="sft_dataset.jsonl", split="train")` 加载
-4. 完成覆盖度报告，然后 `train_test_split(test_size=0.1, seed=42)` 切分，`save_to_disk` 落盘
+4. 完成覆盖度报告，然后 `train_test_split(test_size=0.1, seed=42)` 切分，`save_to_disk` 落盘——留 test 的原因：p4 微调后在它上面对比效果，才能证明微调真有用
 
 验收就是一句话：能被 `datasets` 库加载，跑通即通过。
 
 ### 练习 4：本地大模型合成指令对（难度 5/5）
+
+手写 100 条之外再翻倍，成本就顶不住了——行业的做法是让模型打工生成草稿，人来验货。这是"合成数据必须过质量评估"的实战现场。
 
 在 `p2_instruction/p4_synth.py` 里：
 

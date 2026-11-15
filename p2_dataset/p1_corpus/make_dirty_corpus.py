@@ -51,7 +51,7 @@ DIRTY_ROWS = [
     (30, "差评，客服一直机器人转人工，转了三次都没成功。", "在线评论"),
 ]
 
-# 1. 去空
+# 练习1: 使用 pandas
 def remove_empty_rows(rows):
     return [row for row in rows if row[1].strip() != ""]
 
